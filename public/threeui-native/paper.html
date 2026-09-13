@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>WizzBot Contact Paper</title>
+<title>Wizz Contact Paper</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0b0d'/%3E%3Ccircle cx='13' cy='19' r='6' fill='%23fff'/%3E%3Ccircle cx='25' cy='23' r='2.6' fill='%23fff'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,11 +43,14 @@ body{
       text-align:center;font-size:10px;letter-spacing:.22em;text-transform:uppercase;
       color:rgba(242,242,240,.30);opacity:0;transition:opacity .8s ease}
 #hint b{font-weight:500;color:rgba(242,242,240,.58)}
+.paper-socials{position:fixed!important;z-index:10!important;inset:0!important;width:auto!important;height:auto!important;padding:0!important;margin:0!important;overflow:visible!important;clip-path:none!important;pointer-events:none!important;background:none!important;border:0!important;transform:none!important;backdrop-filter:none!important}
+.paper-socials a{position:fixed!important;width:48px!important;height:48px!important;padding:0!important;margin:0!important;border:0!important;background:transparent!important;color:transparent!important;box-shadow:none!important;transform:translate(-50%,-50%)!important;pointer-events:auto!important}
+.paper-socials a svg,.paper-socials a span{visibility:hidden!important}.paper-socials a:focus-visible{outline:2px solid rgba(255,255,255,.9)!important;outline-offset:3px!important}
 @media(hover:none){ #hint .ptr{display:none} }
 
 </style>
 
-<div id="bg"><h1>WIZZBOT</h1></div>
+<div id="bg"><h1>WIZZ</h1></div>
 
 <div id="dof"></div>
 <canvas id="gl"></canvas>
@@ -55,6 +58,11 @@ body{
 <div id="grain2"></div>
 <div id="vig"></div>
 <div id="hint"><b>Drag</b> to turn it<span class="ptr"> &nbsp;·&nbsp; <b>Hover</b> to light it</span></div>
+<nav class="paper-socials" id="paper-links" aria-label="Contact links">
+  <a href="mailto:wizzbot.offi@gmail.com" aria-label="Email"></a>
+  <a href="https://github.com/WizzLabs" target="_blank" rel="noreferrer" aria-label="GitHub"></a>
+  <a href="https://www.instagram.com/not_wizz.exe/" target="_blank" rel="noreferrer" aria-label="Instagram"></a>
+</nav>
 
 <script>/**
  * @license
@@ -67,7 +75,7 @@ body{
 (function(){
 "use strict";
 const T = THREE;
-const TW = 1400, TH = 1932;               // 0.7246, same proportion as before
+const TW = 1540, TH = 1932;
 const clamp = (v,a,b)=> v<a?a:(v>b?b:v);
 const rng = (s)=>()=>{ s=(s*1103515245+12345)&0x7fffffff; return (s>>>8)/8388608; };
 const REDUCED = window.matchMedia &&
@@ -130,16 +138,38 @@ function drawGlass(ctx){
   ctx.fillStyle='#ffffff'; ctx.font='700 104px "Inter Tight", Inter, sans-serif';
   ctx.fillText('o.', M, 190);
 
-  ctx.font='500 106px "Inter Tight", Inter, sans-serif';
+  ctx.font='500 74px "Inter Tight", Inter, sans-serif';
   ctx.fillStyle='rgba(255,255,255,.52)';
   ctx.fillText('LET\'S BUILD.', M, 392);
   ctx.fillText('AI · SOFTWARE · HARDWARE',        M, 518);
   ctx.font='600 110px "Inter Tight", Inter, sans-serif'; ctx.fillStyle='#ffffff';
-  ctx.fillText('WizzBot.', M, 664);
+  ctx.fillText('Wizz.', M, 664);
 
   ctx.font='600 34px Inter, sans-serif'; ctx.fillStyle='rgba(255,255,255,.90)';
   ['AI Engineer','Creative Developer','Hardware Builder'].forEach((s,i)=>
     ctx.fillText(s, M+4, 752+i*45));
+
+  const socials=[
+    {x:150,y:1115,kind:'mail'},
+    {x:150,y:1240,kind:'github'},
+    {x:150,y:1365,kind:'instagram'}
+  ];
+  socials.forEach(({x,y,kind})=>{
+    ctx.save();
+    ctx.strokeStyle='rgba(255,255,255,.64)';ctx.fillStyle='rgba(10,17,25,.28)';ctx.lineWidth=3;
+    ctx.beginPath();ctx.arc(x,y,44,0,Math.PI*2);ctx.fill();ctx.stroke();
+    ctx.strokeStyle='#fff';ctx.fillStyle='#fff';ctx.lineWidth=4;ctx.lineCap='round';ctx.lineJoin='round';
+    if(kind==='mail'){
+      ctx.strokeRect(x-20,y-14,40,28);ctx.beginPath();ctx.moveTo(x-20,y-13);ctx.lineTo(x,y+3);ctx.lineTo(x+20,y-13);ctx.stroke();
+    }else if(kind==='github'){
+      ctx.save();ctx.translate(x-21,y-21);ctx.scale(1.75,1.75);
+      ctx.fill(new Path2D('M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.69c-2.78.6-3.37-1.18-3.37-1.18-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.35 1.09 2.92.83.09-.65.35-1.09.64-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.6 9.6 0 0 1 12 6.68a9.6 9.6 0 0 1 2.5.34c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.86v2.76c0 .27.18.58.69.48A10 10 0 0 0 12 2z'));
+      ctx.restore();
+    }else{
+      ctx.strokeRect(x-18,y-18,36,36);ctx.beginPath();ctx.arc(x,y,9,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.arc(x+12,y-12,2.5,0,Math.PI*2);ctx.fill();
+    }
+    ctx.restore();
+  });
 
   const px=592, py=1158;
   ctx.font='700 24px Inter, sans-serif'; ctx.fillStyle='rgba(255,255,255,.92)';
@@ -154,8 +184,8 @@ function drawGlass(ctx){
   ctx.restore();
 
   ctx.font='700 34px "Inter Tight", Inter, sans-serif'; ctx.fillStyle='#ffffff';
-  ctx.fillText('wizzbot.', M, 1516);
-  const w = ctx.measureText('wizzbot.').width;
+  ctx.fillText('wizz.', M, 1516);
+  const w = ctx.measureText('wizz.').width;
   ctx.font='500 34px "Inter Tight", Inter, sans-serif';
   ctx.fillStyle='rgba(255,255,255,.62)'; ctx.fillText(' portfolio', M+w, 1516);
 }
@@ -231,7 +261,7 @@ const touchLight = new T.PointLight(0xdfe8ff, 0, 7.5, 1.35);
 touchLight.position.set(0,0,1.7); scene.add(touchLight);
 
 /* ---- geometry + the bend ------------------------------------------- */
-const SW = 2.30, SH = 2.72;
+const SW = 3.02, SH = 2.72;
 const geo = new T.PlaneGeometry(SW,SH,72,96);
 
 const uni = {
@@ -363,10 +393,13 @@ let dragging=false, dragYaw=0, dragPitch=0, release=0;
 // fling travels the same distance at 60Hz and at 120Hz
 let velYaw=0, velPitch=0, prevYaw=0, prevPitch=0;
 let lastPX=0, lastPY=0, moved=0, overSheet=false, hover=0, hoverTarget=0;
-let quad=null, cursorNow='';
+let quad=null, linkQuad=null, cursorNow='';
 const mouse = {x:0,y:0,tx:0,ty:0};
 const hintEl = document.getElementById('hint');
 let hintUsed=false;
+const paperRoot=document.getElementById('paper-links').getRootNode();
+new MutationObserver(()=>paperRoot.querySelectorAll('.paper-socials:not(#paper-links)').forEach(node=>node.remove()))
+  .observe(paperRoot,{childList:true});
 
 // JS mirror of the GLSL bend, corners only — enough to know whether the
 // pointer is on the paper
@@ -395,6 +428,7 @@ function buildQuad(){
   }
   const cx=(pts[0][0]+pts[1][0]+pts[2][0]+pts[3][0])/4;
   const cy=(pts[0][1]+pts[1][1]+pts[2][1]+pts[3][1])/4;
+  linkQuad=pts;
   quad = pts.map(([x,y])=>[cx+(x-cx)*1.07, cy+(y-cy)*1.07]);
 }
 function inQuad(px,py){
@@ -408,6 +442,32 @@ function inQuad(px,py){
   return true;
 }
 function useHint(){ hintUsed=true; hintEl.style.opacity='0'; }
+
+function hotspotAt(px,py){
+  const points=[[150/1200,1-1115/1656],[150/1200,1-1240/1656],[150/1200,1-1365/1656]];
+  let found=-1,best=Infinity;
+  points.forEach(([u,v],index)=>{
+    cornerPoint(u,v).applyMatrix4(group.matrixWorld).project(camera);
+    const x=(_v.x*.5+.5)*vw,y=(-_v.y*.5+.5)*vh;
+    const d=Math.hypot(px-x,py-y);
+    if(d<best){best=d;found=index;}
+  });
+  return best<38?found:-1;
+}
+function syncLinkHotspots(){
+  const points=[[150/1200,1-1115/1656],[150/1200,1-1240/1656],[150/1200,1-1365/1656]];
+  const links=paperRoot.querySelectorAll('#paper-links a');
+  if(!linkQuad) return;
+  points.forEach(([u,v],index)=>{
+    if(!links[index]) return;
+    const topX=linkQuad[0][0]+(linkQuad[1][0]-linkQuad[0][0])*u;
+    const topY=linkQuad[0][1]+(linkQuad[1][1]-linkQuad[0][1])*u;
+    const bottomX=linkQuad[3][0]+(linkQuad[2][0]-linkQuad[3][0])*u;
+    const bottomY=linkQuad[3][1]+(linkQuad[2][1]-linkQuad[3][1])*u;
+    links[index].style.left=`${(bottomX+(topX-bottomX)*v)/vw*100}%`;
+    links[index].style.top=`${(bottomY+(topY-bottomY)*v)/vh*100}%`;
+  });
+}
 
 window.addEventListener('pointermove', e=>{
   mouse.tx = (e.clientX/window.innerWidth  - 0.5)*2;
@@ -430,8 +490,10 @@ window.addEventListener('pointerdown', e=>{
     velYaw=velPitch=0; prevYaw=dragYaw; prevPitch=dragPitch;
   }
 });
-window.addEventListener('pointerup', ()=>{
-  if(dragging){ dragging=false; release=0.6; }
+window.addEventListener('pointerup', e=>{
+  if(dragging){
+    dragging=false; release=0.6;
+  }
 });
 window.addEventListener('pointerleave', ()=>{ hoverTarget=0; });
 
@@ -512,6 +574,7 @@ function frame(){
   }
 
   buildQuad();
+  syncLinkHotspots();
   const wantCursor = dragging ? 'grabbing' : (overSheet ? 'grab' : '');
   if(wantCursor !== cursorNow){ cursorNow = wantCursor; document.body.style.cursor = wantCursor; }
 
@@ -545,4 +608,4 @@ window.__sheet = {group, mat, uni, renderer, scene, camera, mesh,
   hit:(x,y)=>inQuad(x,y),
   spin:(y)=>{ dragYaw=y; release=1e9; }};
 })();
-</script>
+</script>
